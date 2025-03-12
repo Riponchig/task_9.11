@@ -1,6 +1,6 @@
 const personGenerator = {
     surnameJson: `{  
-        "count": 15,
+        "count": 16,
         "list": {
             "id_1": "Иванов",
             "id_2": "Смирнов",
@@ -43,28 +43,35 @@ const personGenerator = {
 
     randomValue: function (json) {
         const obj = JSON.parse(json);
-        const prop = `id_${this.randomIntNumber(obj.count, 1)}`;  // this = personGenerator
+        const prop = `id_${this.randomIntNumber(obj.count, 1)}`;
         return obj.list[prop];
     },
 
-    randomFirstName: function() {
-
-        return this.randomValue(this.firstNameMaleJson);
-
+    randomGender: function() {
+        return this.randomIntNumber(1, 0) ? this.GENDER_MALE : this.GENDER_FEMALE;
     },
 
-
-     randomSurname: function() {
-
-        return this.randomValue(this.surnameJson);
-
+    randomFirstName: function(gender) {
+        return gender === this.GENDER_MALE 
+            ? this.randomValue(this.firstNameMaleJson) 
+            : this.randomValue(this.firstNameMaleJson) + "а"; // Условная женская версия
     },
 
+    randomSurname: function(gender) {
+        let surname = this.randomValue(this.surnameJson);
+        return gender === this.GENDER_FEMALE ? surname + "а" : surname;
+    },
+
+    randomBirthYear: function() {
+        return this.randomIntNumber(2005, 1950); // Генерация года рождения от 1950 до 2005
+    },
 
     getPerson: function () {
         this.person = {};
-        // this.person.gender = this.randomGender();
-        this.person.firstName = this.randomFirstName();
+        this.person.gender = this.randomGender();
+        this.person.firstName = this.randomFirstName(this.person.gender);
+        this.person.surname = this.randomSurname(this.person.gender);
+        this.person.birthYear = this.randomBirthYear();
         return this.person;
     }
 };
