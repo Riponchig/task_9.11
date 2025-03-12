@@ -36,6 +36,22 @@ const personGenerator = {
         }
     }`,
 
+    // **JSON с именами отцов**
+    fatherNameJson: `{
+        "count": 5,
+        "list": {
+            "id_1": "Александр",
+            "id_2": "Василий",
+            "id_3": "Петр",
+            "id_4": "Дмитрий",
+            "id_5": "Иван"
+        }
+    }`,
+ // **JSON с профессиями**
+    professionJson: `{
+        "male": ["Инженер", "Шахтер", "Солдат", "Программист", "Водитель"],
+        "female": ["Учитель", "Медсестра", "Бухгалтер", "Дизайнер", "Флорист"]
+    }`,
     GENDER_MALE: 'Мужчина',
     GENDER_FEMALE: 'Женщина',
 
@@ -62,6 +78,24 @@ const personGenerator = {
         return gender === this.GENDER_FEMALE ? surname + "а" : surname;
     },
 
+// **Выбор отчества**
+    randomPatronymic: function(gender) {
+        let fatherName = this.randomValue(this.fatherNameJson);
+
+        if (gender === this.GENDER_MALE) {
+        return fatherName + (fatherName.endsWith("й") ? "евич" : "ович");
+        } else {
+        return fatherName + (fatherName.endsWith("й") ? "евна" : "овна");
+        }
+},
+// **Выбор профессии**
+    randomProfession: function (gender) {
+        const obj = JSON.parse(this.professionJson);
+        const professions = gender === this.GENDER_MALE ? obj.male : obj.female;
+        return professions[this.randomIntNumber(professions.length - 1, 0)];
+    },
+    
+
     randomBirthYear: function() {
         return this.randomIntNumber(2005, 1950); // Генерация года рождения от 1950 до 2005
     },
@@ -72,6 +106,9 @@ const personGenerator = {
         this.person.firstName = this.randomFirstName(this.person.gender);
         this.person.surname = this.randomSurname(this.person.gender);
         this.person.birthYear = this.randomBirthYear();
+        this.person.patronymic = this.randomPatronymic(this.person.gender);
+        this.person.profession = this.randomProfession(this.person.gender);
         return this.person;
     }
+    
 };
