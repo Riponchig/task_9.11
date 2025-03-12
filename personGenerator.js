@@ -68,9 +68,18 @@ const personGenerator = {
     },
 
     randomFirstName: function(gender) {
-        return gender === this.GENDER_MALE 
-            ? this.randomValue(this.firstNameMaleJson) 
-            : this.randomValue(this.firstNameMaleJson) + "а"; // Условная женская версия
+        let firstName = this.randomValue(this.firstNameMaleJson); 
+    
+        if (gender === this.GENDER_FEMALE) {
+            if (firstName.endsWith("й")) {
+                return firstName.slice(0, -1) + "я"; // Добавляем в конец Я вмесито Й Андрей → Андрея
+            } else if (firstName === "Илья") {
+                return "Илья"; // Оставляем без изменений Илью
+            } else {
+                return firstName + "а"; // Александр → Александра
+            }
+        }
+        return firstName; // Если мужчина, оставляем имя без изменений
     },
 
     randomSurname: function(gender) {
