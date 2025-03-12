@@ -73,8 +73,6 @@ const personGenerator = {
         if (gender === this.GENDER_FEMALE) {
             if (firstName.endsWith("й")) {
                 return firstName.slice(0, -1) + "я"; // Добавляем в конец Я вмесито Й Андрей → Андрея
-            } else if (firstName === "Илья") {
-                return "Илья"; // Оставляем без изменений Илью
             } else {
                 return firstName + "а"; // Александр → Александра
             }
