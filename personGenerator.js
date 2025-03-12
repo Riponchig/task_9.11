@@ -36,17 +36,6 @@ const personGenerator = {
         }
     }`,
 
-    // **JSON с именами отцов**
-    fatherNameJson: `{
-        "count": 5,
-        "list": {
-            "id_1": "Александр",
-            "id_2": "Василий",
-            "id_3": "Петр",
-            "id_4": "Дмитрий",
-            "id_5": "Иван"
-        }
-    }`,
  // **JSON с профессиями**
     professionJson: `{
         "male": ["Инженер", "Шахтер", "Солдат", "Программист", "Водитель"],
@@ -87,14 +76,25 @@ const personGenerator = {
 
 // **Выбор отчества**
     randomPatronymic: function(gender) {
-    let fatherName = this.randomValue(this.fatherNameJson); // Получаем имя отца
+    let fatherName = this.randomValue(this.firstNameMaleJson); // Получаем имя отца
     
-    if (fatherName.endsWith("й")) {
-        fatherName = fatherName.slice(0, -1); // Убираем "й" в конце
-        return gender === this.GENDER_MALE ? fatherName + "евич" : fatherName + "евна";
-    } else {
-        return gender === this.GENDER_MALE ? fatherName + "ович" : fatherName + "овна";
+    // особый случай
+    const specialCases = {
+        "Никита": { male: "Никитович", female: "Никитовна" }
+    };
+
+    if (specialCases[fatherName]) {
+        return gender === this.GENDER_MALE ? specialCases[fatherName].male : specialCases[fatherName].female;
     }
+    //Если имя заканчивается на "й" меняем окончание на евич и евна
+    if (fatherName.endsWith("й")) {
+        return gender === this.GENDER_MALE 
+            ? fatherName.slice(0, -1) + "евич" 
+            : fatherName.slice(0, -1) + "евна";
+    }
+
+    // Для остальных случаев просто добавляем ович и овна
+    return gender === this.GENDER_MALE ? fatherName + "ович" : fatherName + "овна";
 },
 // **Выбор профессии**
     randomProfession: function (gender) {
@@ -105,7 +105,7 @@ const personGenerator = {
     
 
     randomBirthYear: function() {
-        return this.randomIntNumber(2005, 1950); // Генерация года рождения от 1950 до 2005
+        return this.randomIntNumber(2007, 1950); // Генерация года рождения от 1950 до 2007
     },
 
     getPerson: function () {
