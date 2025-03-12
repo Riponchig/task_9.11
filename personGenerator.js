@@ -104,16 +104,36 @@ const personGenerator = {
     },
     
 
-    randomBirthYear: function() {
-        return this.randomIntNumber(2007, 1950); // Генерация года рождения от 1950 до 2007
+    randomBirthDate: function() {
+        const months = {
+            "января": 31, 
+            "февраля": 28, 
+            "марта": 31, 
+            "апреля": 30,
+            "мая": 31, 
+            "июня": 30, 
+            "июля": 31, 
+            "августа": 31,
+            "сентября": 30, 
+            "октября": 31, 
+            "ноября": 30,
+             "декабря": 31
+        };
+    
+        let monthNames = Object.keys(months); 
+        let month = monthNames[this.randomIntNumber(monthNames.length - 1, 0)]; 
+        let day = this.randomIntNumber(months[month], 1); 
+        let year = this.randomIntNumber(2007, 1950); 
+    
+        return `${day} ${month}, ${year}`;
     },
-
+    
     getPerson: function () {
         this.person = {};
         this.person.gender = this.randomGender();
         this.person.firstName = this.randomFirstName(this.person.gender);
         this.person.surname = this.randomSurname(this.person.gender);
-        this.person.birthYear = this.randomBirthYear();
+        this.person.birthDate = this.randomBirthDate();
         this.person.patronymic = this.randomPatronymic(this.person.gender);
         this.person.profession = this.randomProfession(this.person.gender);
         return this.person;
