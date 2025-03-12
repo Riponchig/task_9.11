@@ -80,13 +80,14 @@ const personGenerator = {
 
 // **Выбор отчества**
     randomPatronymic: function(gender) {
-        let fatherName = this.randomValue(this.fatherNameJson);
-
-        if (gender === this.GENDER_MALE) {
-        return fatherName + (fatherName.endsWith("й") ? "евич" : "ович");
-        } else {
-        return fatherName + (fatherName.endsWith("й") ? "евна" : "овна");
-        }
+    let fatherName = this.randomValue(this.fatherNameJson); // Получаем имя отца
+    
+    if (fatherName.endsWith("й")) {
+        fatherName = fatherName.slice(0, -1); // Убираем "й" в конце
+        return gender === this.GENDER_MALE ? fatherName + "евич" : fatherName + "евна";
+    } else {
+        return gender === this.GENDER_MALE ? fatherName + "ович" : fatherName + "овна";
+    }
 },
 // **Выбор профессии**
     randomProfession: function (gender) {
