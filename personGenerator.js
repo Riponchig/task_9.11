@@ -35,6 +35,21 @@ const personGenerator = {
             "id_10": "Андрей"
         }
     }`,
+    firstNameFemaleJson: `{
+        "count": 10,
+        "list": {     
+            "id_1": "Александра",
+            "id_2": "Мария",
+            "id_3": "Ирина",
+            "id_4": "Артемида",
+            "id_5": "Дина",
+            "id_6": "Николь",
+            "id_7": "Мишель",
+            "id_8": "Даная",
+            "id_9": "Ефросия",
+            "id_10": "Анна"
+        }
+    }`,
 
  // **JSON с профессиями**
     professionJson: `{
@@ -57,16 +72,14 @@ const personGenerator = {
     },
 
     randomFirstName: function(gender) {
-        let firstName = this.randomValue(this.firstNameMaleJson); 
-    
+        let firstName = '';
         if (gender === this.GENDER_FEMALE) {
-            if (firstName.endsWith("й")) {
-                return firstName.slice(0, -1) + "я"; // Добавляем в конец Я вмесито Й Андрей → Андрея
-            } else {
-                return firstName + "а"; // Александр → Александра
-            }
+            firstName = this.randomValue(this.firstNameFemaleJson);
         }
-        return firstName; // Если мужчина, оставляем имя без изменений
+        else {
+            firstName = this.randomValue(this.firstNameMaleJson); 
+        }
+        return firstName; 
     },
 
     randomSurname: function(gender) {
